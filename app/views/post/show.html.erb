@@ -1,0 +1,25 @@
+<h1><%= @post.title %></h1><br /><hr />
+<a href="/post/edit/<%= @post.id %>"><span class="badge badge-secondary">수정</span></a> 
+<a href="/post/destroy/<%= @post.id %>"><span class="badge badge-secondary">삭제</span></a> 
+
+<h5><%= @post.user.username %></h5><h5><%= @post.updated_at.to_s.split('+').first %></h5>
+<br />
+<h5><%= @post.content %></h5>
+<%= image_tag @post.image %>
+
+<% @post.replies.each do |r| %>
+    <div><%= r.user.username %> <%= r.content %>
+    <% if r.user.username == current_user.username %>
+    <a href="/reply/destroy/<%= r.id %>"><span class="badge badge-danger">삭제</span></a>
+    <% end %>
+</div>
+<% end %>
+<form action="/reply/create/<%=@post.id%>" method="post">
+    <div>
+          <div class="form-group row">
+            <textarea name="content" class="form-control col-11" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <button type="button submit" class="btn btn-light col-1">작성</button>
+          </div>
+    </div>
+</form>
+<a href ="/"><button type="button" class="btn btn-light">목록으로</button></a>
